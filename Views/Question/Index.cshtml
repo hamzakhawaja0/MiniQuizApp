@@ -1,0 +1,28 @@
+
+@*Declares the type of data (the model) that view expects.
+In this case its a list of Question objects from the MiniQuizApp.Models namespace*@
+@model List<MiniQuizApp.Models.Question>
+<h2>Submitted Questions</h2> 
+
+<table class="table">
+    <thead> <!--Table header,defines the names of the columns -->
+        <tr>
+            <th>Text</th>
+            <th>Correct Answer</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @*This is a C# for each loop using Razor syntax It iterates over each question (referred to as "q")
+        in the model. The @ symbol tells razor to sqitch from HTML to C# code*@
+        @foreach (var q in Model)
+        {
+            <tr> @*Start a new row for each question*@
+                <td>@q.Text</td> @*Display Text property of the question*@
+                <td>@q.CorrectAnswer</td> @*Displays the correct answer property of the question*@
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-primary" href="/Question/Create">Add New Question</a>
