@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc; //  Provides tools to build web applications (co
 using MiniQuizApp.Models; // Gives us access to our model classes, like Question.
 using Microsoft.EntityFrameworkCore; //Needed for async queries
 using MiniQuizApp.Data;
+using MiniQuizApp.Dtos;
 
 namespace MiniQuizApp.Controllers
 {
@@ -18,8 +19,20 @@ namespace MiniQuizApp.Controllers
         //Get: /Question
         public async Task<IActionResult> Index(){
             // fetch all questions from the db (async = non-blocking)
-            var questions = await _context.Questions.ToListAsync();
-            return View(questions);
+            var questions = await _context.Questions.ToListAsync(); // gets all questions from the database as a list
+
+            // This part goes through each question in the list (using foreach-lie statement) 
+            var dtoList = questions.Select(q => new QuestionDto // for each question q, create a QuestionDto, which contains only specfic information
+            {
+                Id = q.Id,
+                Text = q.Text,
+                OptionA = q.OptionA,
+                OptionB = q.OptionB,
+                OptionC = q.OptionC,
+                OptionD = q.OptionD,
+             }).ToList();
+
+            return View(dtoList);
         }
 
 
@@ -32,12 +45,22 @@ namespace MiniQuizApp.Controllers
 
         // POST: /Question/Create
         [HttpPost] //responds to POST requests at /Question/Create, called when user submits the form to create a new question
-        public async Task<IActionResult> Create(Question question){
+        public async Task<IActionResult> Create(CreateQuestionDto dto){
             if (!ModelState.IsValid){ //check if submitted data matches the rules defined in the Question model
                 //if the data is not valid, return the same view with the current data
                 //so the user can see error messages and fix their input
-                return View(question);
+                return View(dto);
             }
+            //Map DTO -> actual Question model
+            var question = new Question{
+                Text  =dto.Text,
+                OptionA = dto.OptionB,
+                OptionC = dto.OptionC,
+                OptionD = dto.OptionD,
+                CorrectAnswer = dto.CorrectAnswer
+            };
+            
+            
 
             // Add the question to Db
             _context.Questions.Add(question);

@@ -1,14 +1,14 @@
 
 @*Declares the type of data (the model) that view expects.
 In this case its a list of Question objects from the MiniQuizApp.Models namespace*@
-@model List<MiniQuizApp.Models.Question>
+@model List<MiniQuizApp.Dtos.QuestionDto> // Hey razor, expect a list of QuestionDto now, not the full question model
 <h2>Submitted Questions</h2> 
 
 <table class="table">
     <thead> <!--Table header,defines the names of the columns -->
         <tr>
             <th>Text</th>
-            <th>Correct Answer</th>
+            <th>Answer Choices</th>
         </tr>
     </thead>
 
@@ -19,7 +19,12 @@ In this case its a list of Question objects from the MiniQuizApp.Models namespac
         {
             <tr> @*Start a new row for each question*@
                 <td>@q.Text</td> @*Display Text property of the question*@
-                <td>@q.CorrectAnswer</td> @*Displays the correct answer property of the question*@
+                <td>
+                    A. @q.OptionA <br> 
+                    B. @q.OptionB <br> 
+                    C. @q.OptionC <br> 
+                    D. @q.OptionD 
+                </td>
             </tr>
         }
     </tbody>
