@@ -54,7 +54,8 @@ namespace MiniQuizApp.Controllers
             //Map DTO -> actual Question model
             var question = new Question{
                 Text  =dto.Text,
-                OptionA = dto.OptionB,
+                OptionA = dto.OptionA,
+                OptionB = dto.OptionB,
                 OptionC = dto.OptionC,
                 OptionD = dto.OptionD,
                 CorrectAnswer = dto.CorrectAnswer
